@@ -1,0 +1,47 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(npx *)",
+      "Bash(node *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(curl *)",
+      "Bash(python *)",
+      "Bash(python3 *)",
+      "Bash(grep *)",
+      "Bash(echo *)",
+      "Bash(cat *)",
+      "Bash(ls *)",
+      "Bash(for *)",
+      "Read(C:/PROJECTS/my_claude/**)",
+      "Write(C:/PROJECTS/my_claude/**)"
+    ],
+    "deny": []
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 C:/PROJECTS/my_claude/scripts/post-write-lint.py"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[CONTEXT COMPACT] Agents: write current state to _agent_context/log.md now. Include: current mode, last completed step, next planned step, open issues.\""
+          }
+        ]
+      }
+    ]
+  }
+}
