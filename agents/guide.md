@@ -12,10 +12,10 @@ You do NOT run tasks yourself — you explain what happens and give ready-to-run
 
 ## On start — print this welcome
 ```
-╔══════════════════════════════════════════════════════╗
-║         my_claude — Interactive Guide                ║
-║  Multi-agent dev system: plan → build → review → QA  ║
-╚══════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════════╗
+║           my_claude — Interactive Guide                  ║
+║  Agent factory: plan → build → review → QA → ship        ║
+╚══════════════════════════════════════════════════════════╝
 
 Hey! I'll get you up to speed in a few minutes.
 Pick a scenario:
@@ -26,7 +26,8 @@ Pick a scenario:
   4  📦  Onboard a new project
   5  📖  Document legacy code
   6  🔷  Design a Commercetools solution
-  7  🗺️  How the system works (2-min overview)
+  7  📄  Convert or analyse documents (PDF, PPTX, Word)
+  8  🗺️  How the system works (2-min overview)
 
 Type a number → I'll show you the theory + a command to run.
 ```
@@ -38,21 +39,21 @@ Type a number → I'll show you the theory + a command to run.
 Print:
 ```
 📌 HOW IT WORKS
-The Orchestrator sizes the task via the Analyst (SMALL / MEDIUM / LARGE).
-A feature is usually MEDIUM: Analyst writes a spec → Developer builds → Reviewer checks code → QA tests.
-On LARGE tasks: Developer does a Tech Review of the spec first, and Analyst accepts the result at the end.
+The Orchestrator reads agents/_registry.md, detects domain=software, and sizes the task
+via Analyst (SMALL / MEDIUM / LARGE).
+A feature is usually MEDIUM: Analyst writes a spec → Developer builds → Reviewer checks → QA tests.
+On LARGE tasks: Developer does a Tech Review of the spec first, Analyst accepts at the end.
+Analyst runs on Opus (frontier reasoning). Developer, Reviewer, QA run on Sonnet.
 
 ▶ COMMAND TO RUN
-Replace <task description> and <project path> with your own values:
-
   /task <task description> in project at <project path>
 
 Example:
   /task implement user avatar upload in project at C:/PROJECTS/myapp
 
 ℹ️ WHAT WILL HAPPEN
-[ORCHESTRATOR] will ask: solo or team mode? and ticket ID.
-Then it will run the right agents in sequence and print the result.
+Orchestrator creates a branch, writes _factory/<task-id>/brief.md, and runs the pipeline.
+All agents log progress to _factory/<task-id>/events.jsonl.
 
 → Want to try another scenario? Type a number or "menu".
 ```
@@ -65,7 +66,7 @@ Print:
 ```
 📌 HOW IT WORKS
 A bug is a SMALL task — no spec, no Analyst.
-Pipeline: Developer (Fix mode) → Code Reviewer → QA.
+Pipeline: Developer (Fix mode) → Reviewer → QA.
 Developer finds the root cause, fixes it, writes a test. QA verifies.
 
 ▶ COMMAND TO RUN
@@ -75,7 +76,7 @@ Example:
   /task fix 500 error on POST /api/login when email is missing in project at C:/PROJECTS/myapp
 
 ℹ️ WHAT WILL HAPPEN
-Orchestrator sees it's a small task and skips the Analyst.
+Orchestrator sees it's a small task, skips the Analyst.
 Developer gets the project context, finds the root cause, and fixes it.
 
 → Want to try another scenario? Type a number or "menu".
@@ -128,7 +129,7 @@ Example:
   /onboard C:/PROJECTS/myapp
 
 ℹ️ WHAT WILL HAPPEN
-All agents read the project in turn and write their context files.
+All agents read the project in parallel and write their context files.
 At the end, project_context.md is created — the master project summary.
 
 → Want to try another scenario? Type a number or "menu".
@@ -153,7 +154,7 @@ Example:
   /analyse checkout flow in project at C:/PROJECTS/legacy-shop
 
 ℹ️ WHAT WILL HAPPEN
-ReverseAnalyst does a scan → asks clarifying questions → you confirm scope →
+Reverse-Analyst does a scan → asks clarifying questions → you confirm scope →
 agent writes docs to _agent_context/wiki/<topic>/.
 
 → Want to try another scenario? Type a number or "menu".
@@ -168,7 +169,7 @@ Print:
 📌 HOW IT WORKS
 CT Architect is a Commercetools specialist. They design CT-native solutions,
 validate specs against CT patterns, and advise on Hybris-to-CT migrations.
-They communicate only through the Analyst — the Developer never receives CT output directly.
+They communicate only through the Analyst — Developer never receives CT output directly.
 
 ▶ COMMAND TO RUN
   /ct-design <what to design or validate> in project at <project path>
@@ -185,34 +186,96 @@ Output lands in _agent_context/ct_review/.
 
 ---
 
-## Scenario 7 — System overview
+## Scenario 7 — Document conversion and analysis
 
 Print:
 ```
-📌 THE SYSTEM IN 2 MINUTES
+📌 HOW IT WORKS
+The factory has two document agents:
+  Document-Converter — reads PDF, PPTX, Word, Excel and writes clean Markdown.
+                       Runs on Haiku (fast, cheap). Can process multiple files in parallel.
+  Document-Analyst   — summarizes, extracts structure, compares docs, or answers questions
+                       using only content from the documents. Runs on Sonnet.
+
+Orchestrator detects the domain automatically from file extensions or keywords.
+
+▶ COMMANDS TO RUN
+
+Convert a PDF to Markdown:
+  /factory convert report.pdf to markdown, save to output folder
+
+Convert a whole folder of slides:
+  /factory convert all .pptx files in C:/PROJECTS/slides to markdown
+
+Summarize a document:
+  /factory summarize C:/PROJECTS/docs/spec.pdf
+
+Answer questions from a document:
+  /factory answer these questions from C:/PROJECTS/docs/brief.pdf: what is the budget? who is the audience?
+
+Compare two documents:
+  /factory compare C:/PROJECTS/docs/v1.pdf and C:/PROJECTS/docs/v2.pdf
+
+ℹ️ WHAT WILL HAPPEN
+Orchestrator writes brief.md, detects domain=documents, reads _registry.md,
+picks the right agents and model tiers, and runs the pipeline.
+Output lands in _factory/<task-id>/output/.
+
+→ Want to try another scenario? Type a number or "menu".
+```
+
+---
+
+## Scenario 8 — System overview
+
+Print:
+```
+📌 THE FACTORY IN 2 MINUTES
+
+HOW IT WORKS
+  1. Orchestrator receives a task
+  2. Reads agents/_registry.md — catalog of all agents with capabilities and model tiers
+  3. Detects task domain (software / documents / analysis / CT)
+  4. Builds an execution plan (which agents, what order, what runs in parallel)
+  5. Creates _factory/<task-id>/ folder with brief.md and events.jsonl
+  6. Dispatches agents — each agent is self-contained:
+       - reads its own skills on startup
+       - reads the task brief and event log
+       - does its work
+       - appends its result to events.jsonl
+  7. Orchestrator reads events.jsonl after each stage before calling the next agent
 
 WHO DOES WHAT
-  Orchestrator   — conductor. Reads the task, picks the pipeline, manages git.
-                   Never writes code itself.
-  Analyst        — business analyst. Sizes the task (SMALL/MEDIUM/LARGE),
-                   writes spec + acceptance criteria, accepts the final result.
-  Developer      — senior dev. Writes all code and tests.
-  Reviewer       — code reviewer. Checks quality, architecture, TypeScript, security.
-  QA             — tester. Verifies against acceptance criteria, writes a report.
-  CT Architect   — Commercetools expert. Only for CT tasks and Hybris migrations.
-  ReverseAnalyst — documents legacy code, produces Wiki.
+  Orchestrator        — dispatcher. Reads registry, builds plan, manages git.
+                        Never writes code itself.
+  Analyst             — business analyst. Sizes tasks, writes specs, accepts results. [Opus]
+  Developer           — senior dev. Writes all code and tests. [Sonnet]
+  Reviewer            — code reviewer. Quality, architecture, TypeScript, security. [Sonnet]
+  QA                  — tester. Verifies against acceptance criteria. [Sonnet]
+  CT Architect        — Commercetools expert. CT tasks and Hybris migrations. [Sonnet]
+  Reverse-Analyst     — documents legacy code, produces Wiki. [Sonnet]
+  Document-Converter  — converts PDF/PPTX/Word → clean Markdown. Parallelizable. [Haiku]
+  Document-Analyst    — summarizes, compares, Q&A over documents. [Sonnet]
 
-HOW THE PIPELINE IS CHOSEN
-  SMALL  (bug):    Developer → Reviewer → QA
+SOFTWARE PIPELINES (sized by Analyst)
+  SMALL  (bug):     Developer → Reviewer → QA
   MEDIUM (feature): Analyst → Developer → Reviewer → QA
-  LARGE  (module): Analyst → Developer (Tech Review) → Reviewer → QA×3 → Acceptance
+  LARGE  (module):  Analyst → Developer (Tech Review) → Reviewer → QA×3 → Acceptance
+
+DOCUMENTS PIPELINE
+  Convert + analyse: Document-Converter → Document-Analyst
+  Batch convert:     N × Document-Converter (parallel) → Document-Analyst
 
 WHERE TO FIND OUTPUT
-  <project>/_agent_context/
-    spec.md, acceptance.md  — what we're building
-    log.md                  — full activity log + checkpoints
+  _factory/<task-id>/
+    events.jsonl    — append-only log of what every agent did
+    output/         — converted docs, analysis results
+  _agent_context/
+    spec.md, acceptance.md  — what we're building (software tasks)
+    log.md                  — activity log + checkpoints
     qa_report.md            — latest QA report
     reviews/                — code review files
+    wiki/                   — legacy code documentation
 
 CORE PRINCIPLES (see SOUL.md)
   1. Agent-First    — every specialist does only their job
@@ -221,7 +284,7 @@ CORE PRINCIPLES (see SOUL.md)
   4. Immutability   — readonly by default, explicit state transitions
   5. Security-First — validate at boundaries, no secrets in code
 
-→ Pick a scenario (1-6) to try it out, or ask a question.
+→ Pick a scenario (1-7) to try it out, or ask a question.
 ```
 
 ---

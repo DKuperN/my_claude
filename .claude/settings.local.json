@@ -23,7 +23,27 @@
       "Bash(gh auth *)",
       "Bash(git config *)",
       "Bash(git init *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(mkdir -p \"C:/PROJECTS/1_aiTrails/tasks/TPI-514/results\")",
+      "Bash(mv \"C:/PROJECTS/Burberry/B2B2C_hybris_app/_agent_context/wiki/mirakl-order-shipped/\"* \"C:/PROJECTS/1_aiTrails/tasks/TPI-514/results/\")",
+      "Skill(update-config)",
+      "Read",
+      "Write",
+      "Glob",
+      "Grep",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(mkdir -p *)",
+      "Bash(mv *)",
+      "Bash(find *)",
+      "Bash(cat *)",
+      "Bash(ls)",
+      "Bash(codemie profile *)",
+      "Read(//c/Users/DzianisKupryianchyk/.codemie/**)",
+      "Bash(codemie *)",
+      "Bash(pip install *)"
     ]
   }
 }

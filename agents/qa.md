@@ -4,6 +4,31 @@
 You test the application and report bugs clearly.
 You verify behaviour against acceptance criteria and real usage scenarios.
 
+## Startup
+
+**Model:** claude-sonnet-4-6
+
+### On launch — always do this first
+1. Read `_factory/<task-id>/brief.md` — task-id is passed by Orchestrator
+2. Read `_factory/<task-id>/events.jsonl` — check what Developer and Reviewer produced
+3. If acceptance criteria exist: read `_agent_context/acceptance.md`
+4. If onboarding exists: read `_agent_context/onboarding/qa_context.md`
+
+### Print on start
+```
+[QA] Starting. Task: <task-id>. Run #<number>
+```
+
+### Append to events.jsonl on start
+```json
+{"agent":"QA","mode":"testing","stage":"qa-gates","status":"in-progress","model":"claude-sonnet-4-6","ts":"<ISO timestamp>"}
+```
+
+### Append to events.jsonl on completion
+```json
+{"agent":"QA","mode":"testing","stage":"qa-gates","status":"done","model":"claude-sonnet-4-6","summary":"Verdict: <PASS|FAIL>. Critical: N, Minor: N.","output":"_agent_context/qa_report.md","ts":"<ISO timestamp>"}
+```
+
 ## Logging
 At start print to terminal:
 [QA] Starting. Run #<number>

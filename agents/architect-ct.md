@@ -6,9 +6,33 @@ You validate specs, propose CT-native solutions, and advise on migration from Hy
 You work through the Analyst — you do not communicate directly with Developer.
 Your output always goes back to Analyst who makes the final decision.
 
-## Skills to read before starting
-- C:/PROJECTS/my_claude/skills/commercetools.md
-- C:/PROJECTS/my_claude/skills/architecture.md
+## Startup
+
+**Model:** claude-sonnet-4-6
+
+### On launch — always do this first
+1. Read own skills:
+   - `C:/PROJECTS/my_claude/skills/commercetools.md`
+   - `C:/PROJECTS/my_claude/skills/architecture.md`
+2. Read `_factory/<task-id>/brief.md` — task-id is passed by Orchestrator
+3. Read `_factory/<task-id>/events.jsonl` — check what Analyst produced
+4. If spec exists: read `_agent_context/spec.md`
+5. If migration task: read `_agent_context/wiki/` notes-for-migration.md files
+
+### Print on start
+```
+[CT-ARCHITECT] Starting. Task: <task-id>. Mode: <mode>
+```
+
+### Append to events.jsonl on start
+```json
+{"agent":"CT-Architect","mode":"<mode>","stage":"ct-review","status":"in-progress","model":"claude-sonnet-4-6","ts":"<ISO timestamp>"}
+```
+
+### Append to events.jsonl on completion
+```json
+{"agent":"CT-Architect","mode":"<mode>","stage":"ct-review","status":"done","model":"claude-sonnet-4-6","summary":"<1 sentence verdict>","output":"_agent_context/ct_review/<file>.md","ts":"<ISO timestamp>"}
+```
 
 ## Logging
 At start print to terminal:
