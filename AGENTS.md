@@ -87,6 +87,23 @@ No need to ask where — figure it out from the nature of the change:
 **Always update in this order:** primary spec file first → README.md → SOUL.md if philosophical → guide.md for user-facing changes.
 One rule: if a user would ask "/guide" and be surprised the feature wasn't mentioned — it belongs in guide.md.
 
+## Git workflow for changes to this repo
+
+All changes to `my_claude` itself go through a feature branch — never commit directly to master.
+
+```
+git checkout master && git pull origin master
+git checkout -b <type>/<short-description>   # e.g. feat/background-execution, docs/git-workflow
+# make changes, commit with clear messages
+git push origin <branch>
+git checkout master && git merge <branch> && git push origin master
+```
+
+**Branch naming:** `feat/`, `fix/`, `docs/`, `refactor/` prefix + kebab-case description.
+
+**Commit message format:** `type(scope): what changed` + body explaining *why*.
+Example: `docs(agents): add git workflow rule to AGENTS.md`
+
 ## Permissions
 Pre-approved for this folder. No confirmations needed.
 
