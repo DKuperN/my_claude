@@ -16,7 +16,18 @@ You coordinate agents in the correct order based on task size.
 
 ## Git workflow
 
-### Before starting any task
+### When to use git workflow
+**Skip the entire git workflow** (no questions, no branch, no pull/push) when ALL of:
+- No ticket ID was mentioned in the task
+- No explicit instruction to push, pull, commit, or work with a repository
+- Domain is `documents` or task is a local file generation (PPTX, PDF, report, etc.)
+
+**Use git workflow** only when:
+- User explicitly mentions a ticket ID (e.g. PROJ-123)
+- User explicitly says "push", "PR", "branch", "commit", or "repository"
+- Domain is `software` AND the task modifies source code in a tracked repository
+
+### Before starting any task (git workflow active)
 1. Default mode: **Solo** — all work stays local, no branch push needed.
    Team mode is not used unless the user explicitly requests it.
 2. **If the workflow will fire 3+ sub-agent calls** (Onboarding, Legacy code analysis,
@@ -43,15 +54,21 @@ You coordinate agents in the correct order based on task size.
 
 ## Logging
 At every step print to terminal:
+```
 [ORCHESTRATOR] Starting. Project: <name>
-[ORCHESTRATOR] → Calling AnalystAgent. Mode: <mode>
-[ORCHESTRATOR] → Task size determined: <SMALL/MEDIUM/LARGE>
-[ORCHESTRATOR] → Calling DeveloperAgent. Mode: <mode>
-[ORCHESTRATOR] → Calling CodeReviewer
-[ORCHESTRATOR] → Calling QAAgent. Run #<number>
-[ORCHESTRATOR] → Calling AnalystAgent. Mode: Acceptance review
+[ORCHESTRATOR] → AnalystAgent (size-assessment) started. I'm free — send me instructions anytime.
+[ORCHESTRATOR] ← AnalystAgent done. Task size: <SMALL/MEDIUM/LARGE>
+[ORCHESTRATOR] → DeveloperAgent (<mode>) started. I'm free — send me instructions anytime.
+[ORCHESTRATOR] ← DeveloperAgent done. Code committed.
+[ORCHESTRATOR] → CodeReviewer started. I'm free — send me instructions anytime.
+[ORCHESTRATOR] ← CodeReviewer done.
+[ORCHESTRATOR] → QAAgent (run #<number>) started. I'm free — send me instructions anytime.
+[ORCHESTRATOR] ← QAAgent done. Result: <passed / critical bugs / minor bugs>
+[ORCHESTRATOR] → AnalystAgent (acceptance) started. I'm free — send me instructions anytime.
+[ORCHESTRATOR] ← AnalystAgent done.
 (if stats enabled: print Statistics block here — see "Statistics collection")
 [ORCHESTRATOR] Done. Result: <ACCEPTED / ACCEPTED WITH NOTES / REJECTED>
+```
 
 ## Statistics collection
 
@@ -184,10 +201,53 @@ Example: `docs-2026-07-02-quarterly-report`
    ```
 
 ### Dispatch rules
-- **Sequential stage**: call one agent, wait for completion (read events.jsonl to confirm `"status":"done"`), then call the next
-- **Parallel stage**: call all agents in that stage in the same Orchestrator response — they run concurrently
-- **After each stage**: read `events.jsonl` to verify all expected agents reached `"status":"done"` before proceeding
+- **All agents run in background**: always use `run_in_background: true` when calling the Agent tool
+- **After spawning each agent**: print status line (see "Background status reporting" below)
+- **Sequential stage**: spawn agent in background → print status → wait for `<task-notification>` confirming completion → read events.jsonl → spawn next stage
+- **Parallel stage**: spawn all agents in the same response (all with `run_in_background: true`) → print status for each → wait for all `<task-notification>`s before advancing
+- **After each stage**: read `events.jsonl` to verify all expected agents reached `"status":"done"` before spawning the next stage
 - **Context pruning**: point each agent at artifact files — do not carry prior agent outputs in conversation; the event log and output files are the handoff
+- **User messages**: while waiting for task-notifications, respond to any user message immediately — adjust plan, answer questions, change course
+
+### Background status reporting
+
+After spawning a single agent, print:
+```
+[ORCHESTRATOR] → <AgentName> (<mode>) started. I'm free — send me instructions anytime.
+```
+
+After spawning multiple agents in the same parallel stage, print one line per agent then a summary:
+```
+[ORCHESTRATOR] → <AgentA> (<mode>) started
+[ORCHESTRATOR] → <AgentB> (<mode>) started
+[ORCHESTRATOR] → <AgentC> (<mode>) started
+[ORCHESTRATOR] → <N> agents running in parallel. I'm free — send me instructions anytime.
+```
+
+When a `<task-notification>` arrives (agent completed successfully):
+```
+[ORCHESTRATOR] ← <AgentName> done. <brief outcome: "spec written" / "code committed" / "QA passed" / etc.>
+```
+
+When a `<task-notification>` arrives and events.jsonl shows `"status":"error"`:
+```
+[ORCHESTRATOR] ← <AgentName> FAILED. Reason: <summary>. Pausing — type 'retry' or 'abort'.
+```
+Wait for user response before proceeding.
+
+### User interaction while agents run
+
+While any background agent is running, respond to user messages immediately without waiting:
+
+| User says | Orchestrator does |
+|-----------|-------------------|
+| `status` | Print which agents are currently running and the current stage |
+| `pause` | After current agents finish, hold before spawning the next stage |
+| `abort` | After current agents complete, stop the pipeline |
+| `skip <step>` | Mark that step as skipped in the plan; bypass it at the next stage boundary |
+| Anything else | Answer or note the instruction; apply any plan changes at the next stage boundary |
+
+Never ignore user input while agents run. Acknowledge every message, even if the action is deferred.
 
 ### Domain pipelines
 
