@@ -27,6 +27,11 @@ production-quality software through a structured, repeatable pipeline.
    No secrets in code. No sensitive data in logs.
    Applied at every layer by every agent.
 
+6. **Reactive Orchestration** — The Orchestrator never blocks on a running agent.
+   All agents run in background; the Orchestrator stays free to take user input,
+   adjust the plan, and react to completions as they arrive.
+   Status is always visible: spawned, running, done, or failed — never silent.
+
 ## Pipeline Philosophy
 Pipelines are sized proportionally: SMALL skips Analyst spec, LARGE includes Acceptance review.
 This prevents over-engineering small fixes and under-engineering large features.

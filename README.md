@@ -30,6 +30,9 @@ codemie-claude --task "Read C:/PROJECTS/my_claude/AGENTS.md and agents/orchestra
 
 ## How the factory works
 Orchestrator reads `agents/_registry.md`, detects the task domain, picks agents and model tiers, then dispatches.
+All agents run in the background — the Orchestrator never blocks. After each spawn it prints a status line
+and stays free to receive your instructions. When an agent finishes you see a completion message; the next
+stage starts automatically. You can type `status`, `pause`, `abort`, or `skip <step>` at any point.
 
   Domain detection:
     .pdf / .pptx / .docx in task  →  documents pipeline

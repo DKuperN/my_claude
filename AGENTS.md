@@ -68,6 +68,25 @@ for Developer and Reviewer during software tasks.
 - rules/code-quality.md — no console.log, no hardcode, file size limits, TypeScript strict
 - rules/context.md      — MCP limits, checkpoint protocol, context file purpose
 
+## Documenting new capabilities
+
+When the user says **"document new capabilities"** (or any equivalent), apply this checklist.
+No need to ask where — figure it out from the nature of the change:
+
+| What changed | Where to document |
+|---|---|
+| New orchestrator behaviour (dispatch, modes, workflow) | `agents/orchestrator.md` (primary), `README.md` (factory overview section) |
+| New core principle or philosophy shift | `SOUL.md` (Core Principles list) |
+| New agent or new agent mode | `agents/_registry.md` + `AGENTS.md` (Agents list) + `README.md` (Agents table) |
+| New slash command | `README.md` (slash commands table) + `AGENTS.md` (slash commands table) |
+| New rule (testing / git / code quality) | `rules/<topic>.md` |
+| New skill (domain knowledge) | `skills/<topic>.md` + `README.md` (Skills list) + `AGENTS.md` (Skills list) |
+| User-facing behaviour change | `agents/guide.md` (relevant scenario + Scenario 8 system overview) |
+| New hook or settings change | `README.md` (Hooks table) + `.claude/settings.json` |
+
+**Always update in this order:** primary spec file first → README.md → SOUL.md if philosophical → guide.md for user-facing changes.
+One rule: if a user would ask "/guide" and be surprised the feature wasn't mentioned — it belongs in guide.md.
+
 ## Permissions
 Pre-approved for this folder. No confirmations needed.
 

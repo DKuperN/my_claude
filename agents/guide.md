@@ -238,12 +238,20 @@ HOW IT WORKS
   3. Detects task domain (software / documents / analysis / CT)
   4. Builds an execution plan (which agents, what order, what runs in parallel)
   5. Creates _factory/<task-id>/ folder with brief.md and events.jsonl
-  6. Dispatches agents — each agent is self-contained:
-       - reads its own skills on startup
-       - reads the task brief and event log
-       - does its work
-       - appends its result to events.jsonl
-  7. Orchestrator reads events.jsonl after each stage before calling the next agent
+  6. Dispatches agents in the background (never blocks):
+       - each agent is self-contained: reads its skills, reads the brief, does its work,
+         appends result to events.jsonl
+       - after each spawn: prints "[ORCHESTRATOR] → AgentName started. I'm free."
+       - after each completion: prints "[ORCHESTRATOR] ← AgentName done."
+       - you can send instructions to the Orchestrator at any point while agents run
+  7. Orchestrator reads events.jsonl after each stage before spawning the next
+
+WHILE AGENTS RUN YOU CAN TYPE
+  status          — see which agents are running and the current stage
+  pause           — hold before the next stage starts
+  abort           — stop after current agents finish
+  skip <step>     — bypass a step at the next stage boundary
+  anything else   — Orchestrator answers immediately and applies changes at next boundary
 
 WHO DOES WHAT
   Orchestrator        — dispatcher. Reads registry, builds plan, manages git.
