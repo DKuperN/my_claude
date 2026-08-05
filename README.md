@@ -57,16 +57,19 @@ stage starts automatically. You can type `status`, `pause`, `abort`, or `skip <s
     Analyst (spec) → CT Architect (validate/design) → Analyst (final spec)
 
 ## Model routing
-| Agent               | Model              |
-|---------------------|--------------------|
-| Analyst             | claude-opus-4-7    |
-| Developer           | claude-sonnet-4-6  |
-| Reviewer            | claude-sonnet-4-6  |
-| QA                  | claude-sonnet-4-6  |
-| CT-Architect        | claude-sonnet-4-6  |
-| Reverse-Analyst     | claude-sonnet-4-6  |
-| Document-Converter  | claude-haiku-4-5   |
-| Document-Analyst    | claude-sonnet-4-6  |
+Model selection is mode-aware: some agents use a cheaper model for simpler modes.
+Orchestrator reads the mode-to-model table from `_registry.md` and passes the resolved model at spawn time.
+
+| Agent               | Default model      | Cheaper mode (haiku)                     |
+|---------------------|--------------------|------------------------------------------|
+| Analyst             | claude-opus-4-7    | —                                        |
+| Developer           | claude-sonnet-4-6  | —                                        |
+| Reviewer            | claude-sonnet-4-6  | —                                        |
+| QA                  | claude-sonnet-4-6  | testing, SMALL task                      |
+| CT-Architect        | claude-sonnet-4-6  | spec-validation                          |
+| Reverse-Analyst     | claude-sonnet-4-6  | surface-scan                             |
+| Document-Converter  | claude-haiku-4-5   | — (always haiku)                         |
+| Document-Analyst    | claude-sonnet-4-6  | summarize                                |
 
 ## Git workflow
 Orchestrator creates a branch at task start (solo mode by default):

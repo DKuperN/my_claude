@@ -111,7 +111,9 @@ DEPENDS_ON:  [Developer]
 ```
 AGENT:       QA
 FILE:        C:/PROJECTS/my_claude/agents/qa.md
-MODEL:       claude-sonnet-4-6
+MODEL:
+  default (MEDIUM/LARGE task): claude-sonnet-4-6
+  testing (SMALL task):        claude-haiku-4-5
 DOMAINS:     [software]
 MODES:       [testing, onboarding]
 READS:       _factory/<task-id>/brief.md
@@ -129,7 +131,9 @@ DEPENDS_ON:  [Developer, Reviewer]
 ```
 AGENT:       CT-Architect
 FILE:        C:/PROJECTS/my_claude/agents/architect-ct.md
-MODEL:       claude-sonnet-4-6
+MODEL:
+  default (solution-design, migration-advisory): claude-sonnet-4-6
+  spec-validation:                               claude-haiku-4-5
 DOMAINS:     [software, commercetools, migration]
 MODES:       [solution-design, spec-validation, migration-advisory]
 READS:       _factory/<task-id>/brief.md
@@ -151,7 +155,9 @@ DEPENDS_ON:  [Analyst]
 ```
 AGENT:       Reverse-Analyst
 FILE:        C:/PROJECTS/my_claude/agents/analyst-reverse.md
-MODEL:       claude-sonnet-4-6
+MODEL:
+  default (deep-analysis, documentation): claude-sonnet-4-6
+  surface-scan:                           claude-haiku-4-5
 DOMAINS:     [analysis, documentation, legacy-code]
 MODES:       [surface-scan, deep-analysis, documentation]
 READS:       _factory/<task-id>/brief.md
@@ -191,7 +197,9 @@ DEPENDS_ON:  []
 ```
 AGENT:       Document-Analyst
 FILE:        C:/PROJECTS/my_claude/agents/document-analyst.md
-MODEL:       claude-sonnet-4-6
+MODEL:
+  default (extract-structure, compare, qa-over-content): claude-sonnet-4-6
+  summarize:                                             claude-haiku-4-5
 DOMAINS:     [documents, analysis, summarization]
 MODES:       [summarize, extract-structure, compare, qa-over-content]
 READS:       _factory/<task-id>/brief.md
@@ -212,16 +220,24 @@ DEPENDS_ON:  [Document-Converter]  ← only when conversion was requested; other
 
 ## Model routing summary
 
-| Stage / Agent       | Model               | Reason |
-|---------------------|---------------------|--------|
-| Analyst             | claude-opus-4-7     | Spec and planning require frontier reasoning |
-| Developer           | claude-sonnet-4-6   | Primary code workhorse |
-| Reviewer            | claude-sonnet-4-6   | Review quality matches Sonnet |
-| QA                  | claude-sonnet-4-6   | Test execution and reporting |
-| CT-Architect        | claude-sonnet-4-6   | Domain knowledge + structured output |
-| Reverse-Analyst     | claude-sonnet-4-6   | Deep reading of legacy code |
-| Document-Converter  | claude-haiku-4-5    | Stateless, parallelizable leaf task |
-| Document-Analyst    | claude-sonnet-4-6   | Analysis requires reasoning |
+Routing is mode-aware. Orchestrator resolves `agent + mode → model` at spawn time using the table below.
+
+| Agent               | Default             | Haiku override (mode)                              |
+|---------------------|---------------------|----------------------------------------------------|
+| Analyst             | claude-opus-4-7     | —                                                  |
+| Developer           | claude-sonnet-4-6   | —                                                  |
+| Reviewer            | claude-sonnet-4-6   | —                                                  |
+| QA                  | claude-sonnet-4-6   | testing (SMALL task)                               |
+| CT-Architect        | claude-sonnet-4-6   | spec-validation                                    |
+| Reverse-Analyst     | claude-sonnet-4-6   | surface-scan                                       |
+| Document-Converter  | claude-haiku-4-5    | — (always haiku)                                   |
+| Document-Analyst    | claude-sonnet-4-6   | summarize                                          |
+
+**Orchestrator routing logic:**
+1. Determine agent mode from pipeline stage
+2. For QA: also check task size (SMALL → haiku)
+3. Look up mode in agent's MODEL table in this registry
+4. Pass resolved model to Agent tool via `model` parameter
 
 **Monitoring signal:** If Opus is consuming >80% of total cost across a pipeline run,
 the model router is broken — investigation needed.

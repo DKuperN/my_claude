@@ -108,16 +108,18 @@ Example: `docs(agents): add git workflow rule to AGENTS.md`
 Pre-approved for this folder. No confirmations needed.
 
 ## Model routing
-| Agent               | Model              | Reason |
-|---------------------|--------------------|--------|
-| Analyst             | claude-opus-4-7    | Spec and planning require frontier reasoning |
-| Developer           | claude-sonnet-4-6  | Primary code workhorse |
-| Reviewer            | claude-sonnet-4-6  | Review quality |
-| QA                  | claude-sonnet-4-6  | Test execution and reporting |
-| CT-Architect        | claude-sonnet-4-6  | Domain knowledge + structured output |
-| Reverse-Analyst     | claude-sonnet-4-6  | Deep reading of legacy code |
-| Document-Converter  | claude-haiku-4-5   | Stateless parallelizable leaf task |
-| Document-Analyst    | claude-sonnet-4-6  | Analysis requires reasoning |
+Routing is mode-aware — Orchestrator resolves the model per agent+mode at spawn time (source of truth: `agents/_registry.md`).
+
+| Agent               | Default            | Haiku override (cheaper mode)            | Reason |
+|---------------------|--------------------|------------------------------------------|--------|
+| Analyst             | claude-opus-4-7    | —                                        | Spec and planning require frontier reasoning |
+| Developer           | claude-sonnet-4-6  | —                                        | Primary code workhorse |
+| Reviewer            | claude-sonnet-4-6  | —                                        | Review quality |
+| QA                  | claude-sonnet-4-6  | testing (SMALL task)                     | SMALL = run tests + report, no deep reasoning needed |
+| CT-Architect        | claude-sonnet-4-6  | spec-validation                          | Validation is a structured checklist, not design |
+| Reverse-Analyst     | claude-sonnet-4-6  | surface-scan                             | Surface scan = file listing, no deep analysis |
+| Document-Converter  | claude-haiku-4-5   | — (always haiku)                         | Stateless parallelizable leaf task |
+| Document-Analyst    | claude-sonnet-4-6  | summarize                                | Summarization is templated; compare/QA needs reasoning |
 
 ## Project output
 Each project gets its own folder:

@@ -264,6 +264,26 @@ Never ignore user input while agents run. Acknowledge every message, even if the
 - Size still determined by Analyst size-assessment mode
 - Model routing from registry: Analyst=Opus, Developer/Reviewer/QA=Sonnet
 
+### Mode-aware model routing
+
+Before spawning any agent, resolve the model to use:
+
+1. Read the agent's MODEL field from `agents/_registry.md`
+2. If MODEL has mode-specific overrides, check the current invocation mode:
+   - For QA: also factor in task size (`SMALL` → `claude-haiku-4-5`, `MEDIUM`/`LARGE` → `claude-sonnet-4-6`)
+   - For all others: match mode name directly against the override table
+3. If no override matches: use `default` model from the registry
+4. Pass the resolved model to the Agent tool via the `model` parameter
+
+Quick reference (canonical source is `_registry.md`):
+| Agent            | Mode / condition              | Model             |
+|------------------|-------------------------------|-------------------|
+| QA               | testing, SMALL task           | claude-haiku-4-5  |
+| CT-Architect     | spec-validation               | claude-haiku-4-5  |
+| Reverse-Analyst  | surface-scan                  | claude-haiku-4-5  |
+| Document-Analyst | summarize                     | claude-haiku-4-5  |
+| all others       | any mode                      | per registry default |
+
 ### Skills injection (software domain only)
 Agents self-load their own domain skills. Orchestrator only injects project-specific stack skills for Developer and Reviewer:
 1. Read `project_context.md` SKILLS section (set during onboarding)
