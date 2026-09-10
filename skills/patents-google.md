@@ -82,6 +82,8 @@ Add `&page=1`, `&page=2`, … to the same URL for subsequent result pages.
 | `WebSearch` tool throws a Bedrock/litellm `inputSchema is invalid` 400 error | Tool-level bug, unrelated to the query text | Do not retry `WebSearch` for this domain — go straight to `xhr/query` via `WebFetch` |
 | Result list looks generic or numbers look suspiciously rounded | Summarization drift from the small model behind WebFetch | Re-issue the same WebFetch call asking for verbatim fields, or spot-check one item against its patent page |
 | Query returns thousands of results dominated by irrelevant families | Missing date bounds or an unquoted multi-word phrase | Quote phrases (`%22...%22`), add `before=`/`after=priority`, add `assignee=` if a company is implied |
+| Everything under a broad noun (e.g. "display", "network") returns the same company's UI/software filings regardless of how many extra keyword phrases are ORed in | A single generic word matches across a huge, unrelated portfolio (e.g. Apple's GUI/Vision Pro filings all contain "display") — adding more quoted phrases in the same `q=` widens the match (OR), it does not narrow it | Narrow via structural filters instead of more keywords: `cpc=<classification>` for the actual hardware art class, or accept the noise and manually pick the results whose title/snippet is genuinely on-topic rather than re-querying repeatedly |
+| `xhr/query` starts returning `HTTP 503 Service Unavailable` after several calls in quick succession | Endpoint-side rate limiting — it's an internal, undocumented endpoint with no published quota | Stop iterating; space out requests. Get the query right on paper first (date bounds, assignee, phrase quoting) so one call suffices instead of narrowing through 4-5 rapid trial calls |
 
 ---
 
