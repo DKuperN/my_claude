@@ -45,6 +45,7 @@ Orchestrator determines task size automatically via Analyst.
 - reviewer.md           — reviews code quality, architecture, security, TypeScript [Sonnet]
 - document-converter.md — converts PDF/PPTX/Word → clean Markdown, parallelizable [Haiku]
 - document-analyst.md   — summarize, extract structure, compare, Q&A over documents [Sonnet]
+- document-generator.md — generates PPTX from structured data, example files, or existing scripts [Sonnet]
 
 ## Skills (domain knowledge — self-loaded by agents)
 - architecture.md       — patterns, microservices, API design, antipatterns
@@ -57,6 +58,7 @@ Orchestrator determines task size automatically via Analyst.
 - java-hybris.md        — Java reading guide, SAP Commerce patterns, Mirakl integration
 - commercetools.md      — CT platform, B2B2C patterns, migration from Hybris
 - documents.md          — document processing: Markdown conventions, citations, conversion markers
+- generate-pptx.md      — python-pptx patterns: slide layouts, themes, fonts, images, common pitfalls
 
 Agents self-load their domain skills (declared in each agent's Startup section).
 Orchestrator injects only project-specific stack skills (typescript.md, python.md, etc.)
@@ -120,6 +122,7 @@ Routing is mode-aware — Orchestrator resolves the model per agent+mode at spaw
 | Reverse-Analyst     | claude-sonnet-4-6  | surface-scan                             | Surface scan = file listing, no deep analysis |
 | Document-Converter  | claude-haiku-4-5   | — (always haiku)                         | Stateless parallelizable leaf task |
 | Document-Analyst    | claude-sonnet-4-6  | summarize                                | Summarization is templated; compare/QA needs reasoning |
+| Document-Generator  | claude-sonnet-4-6  | generate-from-data (simple)              | Simple data→slides is templated; example-matching needs reasoning |
 
 ## Project output
 Each project gets its own folder:

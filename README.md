@@ -38,6 +38,7 @@ stage starts automatically. You can type `status`, `pause`, `abort`, or `skip <s
     .pdf / .pptx / .docx in task  →  documents pipeline
     "analyse", "legacy", "wiki"   →  analysis pipeline
     "commercetools", "CT"         →  software + CT pipeline
+    "generate", "create presentation", "build slides"  →  documents pipeline
     default                       →  software pipeline
 
   Software pipelines (sized by Analyst):
@@ -49,6 +50,9 @@ stage starts automatically. You can type `status`, `pause`, `abort`, or `skip <s
     Convert only:   Document-Converter (parallelizable per file)
     Convert + analyse: Document-Converter → Document-Analyst
     Analyse only:   Document-Analyst (no conversion)
+    Generate only:  Document-Generator (generate-from-data or run-script)
+    Convert + generate: Document-Converter → Document-Generator (generate-from-example)
+    Convert + analyse + generate: Document-Converter → Document-Analyst → Document-Generator
 
   Analysis pipeline (legacy code):
     Reverse-Analyst (surface scan) → Analyst (confirm scope) → Reverse-Analyst (deep docs)
@@ -70,6 +74,7 @@ Orchestrator reads the mode-to-model table from `_registry.md` and passes the re
 | Reverse-Analyst     | claude-sonnet-4-6  | surface-scan                             |
 | Document-Converter  | claude-haiku-4-5   | — (always haiku)                         |
 | Document-Analyst    | claude-sonnet-4-6  | summarize                                |
+| Document-Generator  | claude-sonnet-4-6  | generate-from-data (simple)              |
 
 ## Git workflow
 Orchestrator creates a branch at task start (solo mode by default):
@@ -93,6 +98,7 @@ Orchestrator creates a branch at task start (solo mode by default):
 - reviewer.md           — reviews code quality, architecture, security, TypeScript [Sonnet]
 - document-converter.md — converts PDF/PPTX/Word → clean Markdown, parallelizable [Haiku]
 - document-analyst.md   — summarize, extract structure, compare, Q&A over documents [Sonnet]
+- document-generator.md — generates PPTX from structured data, example files, or scripts [Sonnet]
 
 See SOUL.md for the core principles and philosophy behind the agent system.
 
@@ -107,6 +113,7 @@ See SOUL.md for the core principles and philosophy behind the agent system.
 - java-hybris.md        — Java reading guide, SAP Commerce patterns, Mirakl integration
 - commercetools.md      — CT platform, B2B2C patterns, migration from Hybris
 - documents.md          — document processing: Markdown conventions, citations, conversion markers
+- generate-pptx.md      — python-pptx patterns: slide layouts, themes, fonts, images, pitfalls
 
 Agents self-load their own domain skills. Orchestrator only injects stack skills
 (typescript.md, python.md, etc.) for Developer and Reviewer on software tasks.

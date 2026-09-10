@@ -216,6 +216,26 @@ PARALLEL:    YES
 DEPENDS_ON:  [Document-Converter]  ← only when conversion was requested; otherwise []
 ```
 
+### DOCUMENT-GENERATOR
+```
+AGENT:       Document-Generator
+FILE:        C:/PROJECTS/my_claude/agents/document-generator.md
+MODEL:
+  default (generate-from-example, run-script): claude-sonnet-4-6
+  generate-from-data (simple):                 claude-haiku-4-5
+DOMAINS:     [documents, generation, presentation]
+MODES:       [generate-from-data, generate-from-example, run-script]
+READS:       _factory/<task-id>/brief.md
+             _factory/<task-id>/events.jsonl
+             _factory/<task-id>/output/ (converter/analyst output, if prior agents ran)
+WRITES:      _factory/<task-id>/output/<filename>.pptx
+             _factory/<task-id>/output/generate_<filename>.py
+             _factory/<task-id>/events.jsonl (appends)
+SKILLS:      [generate-pptx.md]
+PARALLEL:    YES
+DEPENDS_ON:  [Document-Converter, Document-Analyst]  ← only when conversion/analysis ran first; otherwise []
+```
+
 ---
 
 ## Model routing summary
@@ -232,6 +252,7 @@ Routing is mode-aware. Orchestrator resolves `agent + mode → model` at spawn t
 | Reverse-Analyst     | claude-sonnet-4-6   | surface-scan                                       |
 | Document-Converter  | claude-haiku-4-5    | — (always haiku)                                   |
 | Document-Analyst    | claude-sonnet-4-6   | summarize                                          |
+| Document-Generator  | claude-sonnet-4-6   | generate-from-data (simple)                        |
 
 **Orchestrator routing logic:**
 1. Determine agent mode from pipeline stage
@@ -252,4 +273,5 @@ the model router is broken — investigation needed.
 | Keywords: "analyse", "document", "legacy", "wiki", "reverse" | `analysis` |
 | Keywords: "commercetools", " CT ", "hybris migration" | `software+ct` |
 | Keywords: "convert", "to markdown", "extract from" + file path | `documents` |
+| Keywords: "generate", "create presentation", "make pptx", "build slides" | `documents` |
 | Default (no domain signal detected) | `software` |
