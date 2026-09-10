@@ -66,15 +66,15 @@ Orchestrator reads the mode-to-model table from `_registry.md` and passes the re
 
 | Agent               | Default model      | Cheaper mode (haiku)                     |
 |---------------------|--------------------|------------------------------------------|
-| Analyst             | claude-opus-4-7    | —                                        |
-| Developer           | claude-sonnet-4-6  | —                                        |
-| Reviewer            | claude-sonnet-4-6  | —                                        |
-| QA                  | claude-sonnet-4-6  | testing, SMALL task                      |
-| CT-Architect        | claude-sonnet-4-6  | spec-validation                          |
-| Reverse-Analyst     | claude-sonnet-4-6  | surface-scan                             |
-| Document-Converter  | claude-haiku-4-5   | — (always haiku)                         |
-| Document-Analyst    | claude-sonnet-4-6  | summarize                                |
-| Document-Generator  | claude-sonnet-4-6  | generate-from-data (simple)              |
+| Analyst             | claude-opus-5      | —                                        |
+| Developer           | claude-sonnet-5    | —                                        |
+| Reviewer            | claude-sonnet-5    | —                                        |
+| QA                  | claude-sonnet-5    | testing, SMALL task                      |
+| CT-Architect        | claude-sonnet-5    | spec-validation                          |
+| Reverse-Analyst     | claude-sonnet-5    | surface-scan                             |
+| Document-Converter  | claude-haiku-4-5-20251001 | — (always haiku)                   |
+| Document-Analyst    | claude-sonnet-5    | summarize                                |
+| Document-Generator  | claude-sonnet-5    | generate-from-data (simple)              |
 
 ## Git workflow
 Orchestrator creates a branch at task start (solo mode by default):

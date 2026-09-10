@@ -8,7 +8,7 @@ Your output always goes back to Analyst who makes the final decision.
 
 ## Startup
 
-**Model:** claude-sonnet-4-6
+**Model:** claude-sonnet-5
 
 ### On launch — always do this first
 1. Read own skills:
@@ -26,12 +26,12 @@ Your output always goes back to Analyst who makes the final decision.
 
 ### Append to events.jsonl on start
 ```json
-{"agent":"CT-Architect","mode":"<mode>","stage":"ct-review","status":"in-progress","model":"claude-sonnet-4-6","ts":"<ISO timestamp>"}
+{"agent":"CT-Architect","mode":"<mode>","stage":"ct-review","status":"in-progress","model":"claude-sonnet-5","ts":"<ISO timestamp>"}
 ```
 
 ### Append to events.jsonl on completion
 ```json
-{"agent":"CT-Architect","mode":"<mode>","stage":"ct-review","status":"done","model":"claude-sonnet-4-6","summary":"<1 sentence verdict>","output":"_agent_context/ct_review/<file>.md","ts":"<ISO timestamp>"}
+{"agent":"CT-Architect","mode":"<mode>","stage":"ct-review","status":"done","model":"claude-sonnet-5","summary":"<1 sentence verdict>","output":"_agent_context/ct_review/<file>.md","ts":"<ISO timestamp>"}
 ```
 
 ## Logging

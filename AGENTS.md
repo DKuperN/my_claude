@@ -114,15 +114,15 @@ Routing is mode-aware — Orchestrator resolves the model per agent+mode at spaw
 
 | Agent               | Default            | Haiku override (cheaper mode)            | Reason |
 |---------------------|--------------------|------------------------------------------|--------|
-| Analyst             | claude-opus-4-7    | —                                        | Spec and planning require frontier reasoning |
-| Developer           | claude-sonnet-4-6  | —                                        | Primary code workhorse |
-| Reviewer            | claude-sonnet-4-6  | —                                        | Review quality |
-| QA                  | claude-sonnet-4-6  | testing (SMALL task)                     | SMALL = run tests + report, no deep reasoning needed |
-| CT-Architect        | claude-sonnet-4-6  | spec-validation                          | Validation is a structured checklist, not design |
-| Reverse-Analyst     | claude-sonnet-4-6  | surface-scan                             | Surface scan = file listing, no deep analysis |
-| Document-Converter  | claude-haiku-4-5   | — (always haiku)                         | Stateless parallelizable leaf task |
-| Document-Analyst    | claude-sonnet-4-6  | summarize                                | Summarization is templated; compare/QA needs reasoning |
-| Document-Generator  | claude-sonnet-4-6  | generate-from-data (simple)              | Simple data→slides is templated; example-matching needs reasoning |
+| Analyst             | claude-opus-5      | —                                        | Spec and planning require frontier reasoning |
+| Developer           | claude-sonnet-5    | —                                        | Primary code workhorse |
+| Reviewer            | claude-sonnet-5    | —                                        | Review quality |
+| QA                  | claude-sonnet-5    | testing (SMALL task)                     | SMALL = run tests + report, no deep reasoning needed |
+| CT-Architect        | claude-sonnet-5    | spec-validation                          | Validation is a structured checklist, not design |
+| Reverse-Analyst     | claude-sonnet-5    | surface-scan                             | Surface scan = file listing, no deep analysis |
+| Document-Converter  | claude-haiku-4-5-20251001 | — (always haiku)                  | Stateless parallelizable leaf task |
+| Document-Analyst    | claude-sonnet-5    | summarize                                | Summarization is templated; compare/QA needs reasoning |
+| Document-Generator  | claude-sonnet-5    | generate-from-data (simple)              | Simple data→slides is templated; example-matching needs reasoning |
 
 ## Project output
 Each project gets its own folder:

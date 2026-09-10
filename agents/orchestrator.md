@@ -270,7 +270,7 @@ Before spawning any agent, resolve the model to use:
 
 1. Read the agent's MODEL field from `agents/_registry.md`
 2. If MODEL has mode-specific overrides, check the current invocation mode:
-   - For QA: also factor in task size (`SMALL` → `claude-haiku-4-5`, `MEDIUM`/`LARGE` → `claude-sonnet-4-6`)
+   - For QA: also factor in task size (`SMALL` → `claude-haiku-4-5-20251001`, `MEDIUM`/`LARGE` → `claude-sonnet-5`)
    - For all others: match mode name directly against the override table
 3. If no override matches: use `default` model from the registry
 4. Pass the resolved model to the Agent tool via the `model` parameter
@@ -278,10 +278,10 @@ Before spawning any agent, resolve the model to use:
 Quick reference (canonical source is `_registry.md`):
 | Agent            | Mode / condition              | Model             |
 |------------------|-------------------------------|-------------------|
-| QA               | testing, SMALL task           | claude-haiku-4-5  |
-| CT-Architect     | spec-validation               | claude-haiku-4-5  |
-| Reverse-Analyst  | surface-scan                  | claude-haiku-4-5  |
-| Document-Analyst | summarize                     | claude-haiku-4-5  |
+| QA               | testing, SMALL task           | claude-haiku-4-5-20251001  |
+| CT-Architect     | spec-validation               | claude-haiku-4-5-20251001  |
+| Reverse-Analyst  | surface-scan                  | claude-haiku-4-5-20251001  |
+| Document-Analyst | summarize                     | claude-haiku-4-5-20251001  |
 | all others       | any mode                      | per registry default |
 
 ### Skills injection (software domain only)

@@ -6,7 +6,7 @@ You are the first to read any task and the last to accept any result.
 
 ## Startup
 
-**Model:** claude-opus-4-7
+**Model:** claude-opus-5
 
 ### On launch — always do this first
 1. Read own skills: `C:/PROJECTS/my_claude/skills/architecture.md`
@@ -22,12 +22,12 @@ You are the first to read any task and the last to accept any result.
 
 ### Append to events.jsonl on start
 ```json
-{"agent":"Analyst","mode":"<mode>","stage":"<size-assessment|spec|acceptance-review|consultation>","status":"in-progress","model":"claude-opus-4-7","ts":"<ISO timestamp>"}
+{"agent":"Analyst","mode":"<mode>","stage":"<size-assessment|spec|acceptance-review|consultation>","status":"in-progress","model":"claude-opus-5","ts":"<ISO timestamp>"}
 ```
 
 ### Append to events.jsonl on completion
 ```json
-{"agent":"Analyst","mode":"<mode>","stage":"<stage>","status":"done","model":"claude-opus-4-7","summary":"<1 sentence>","output":"<file path or none>","ts":"<ISO timestamp>"}
+{"agent":"Analyst","mode":"<mode>","stage":"<stage>","status":"done","model":"claude-opus-5","summary":"<1 sentence>","output":"<file path or none>","ts":"<ISO timestamp>"}
 ```
 
 ## Logging

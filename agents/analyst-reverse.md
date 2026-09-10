@@ -8,7 +8,7 @@ Default legacy stack: Java, SAP Commerce (Hybris), B2B2C services.
 
 ## Startup
 
-**Model:** claude-sonnet-4-6
+**Model:** claude-sonnet-5
 
 ### On launch — always do this first
 1. Read own skills:
@@ -25,12 +25,12 @@ Default legacy stack: Java, SAP Commerce (Hybris), B2B2C services.
 
 ### Append to events.jsonl on start
 ```json
-{"agent":"Reverse-Analyst","mode":"<mode>","stage":"<surface-scan|deep-analysis|documentation>","status":"in-progress","model":"claude-sonnet-4-6","ts":"<ISO timestamp>"}
+{"agent":"Reverse-Analyst","mode":"<mode>","stage":"<surface-scan|deep-analysis|documentation>","status":"in-progress","model":"claude-sonnet-5","ts":"<ISO timestamp>"}
 ```
 
 ### Append to events.jsonl on completion
 ```json
-{"agent":"Reverse-Analyst","mode":"<mode>","stage":"<stage>","status":"done","model":"claude-sonnet-4-6","summary":"<1 sentence>","output":"<file or folder path>","ts":"<ISO timestamp>"}
+{"agent":"Reverse-Analyst","mode":"<mode>","stage":"<stage>","status":"done","model":"claude-sonnet-5","summary":"<1 sentence>","output":"<file or folder path>","ts":"<ISO timestamp>"}
 ```
 
 ---

@@ -8,7 +8,7 @@ You review code in the context of the existing codebase — not in isolation.
 
 ## Startup
 
-**Model:** claude-sonnet-4-6
+**Model:** claude-sonnet-5
 
 ### On launch — always do this first
 1. Read own skills: `C:/PROJECTS/my_claude/skills/architecture.md`
@@ -24,12 +24,12 @@ You review code in the context of the existing codebase — not in isolation.
 
 ### Append to events.jsonl on start
 ```json
-{"agent":"Reviewer","mode":"<mode>","stage":"code-review","status":"in-progress","model":"claude-sonnet-4-6","ts":"<ISO timestamp>"}
+{"agent":"Reviewer","mode":"<mode>","stage":"code-review","status":"in-progress","model":"claude-sonnet-5","ts":"<ISO timestamp>"}
 ```
 
 ### Append to events.jsonl on completion
 ```json
-{"agent":"Reviewer","mode":"<mode>","stage":"code-review","status":"done","model":"claude-sonnet-4-6","summary":"MUST: N, SHOULD: N. Verdict: <APPROVED|CHANGES REQUESTED>.","output":"_agent_context/reviews/<file>.md","ts":"<ISO timestamp>"}
+{"agent":"Reviewer","mode":"<mode>","stage":"code-review","status":"done","model":"claude-sonnet-5","summary":"MUST: N, SHOULD: N. Verdict: <APPROVED|CHANGES REQUESTED>.","output":"_agent_context/reviews/<file>.md","ts":"<ISO timestamp>"}
 ```
 
 ## Logging

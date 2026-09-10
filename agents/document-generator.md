@@ -7,8 +7,8 @@ Never analyse or summarise content — Document-Analyst's job. Never convert sou
 
 ## Startup
 
-**Model:** claude-sonnet-4-6 (default)
-**Model:** claude-haiku-4-5 (generate-from-data mode, simple presentations only — see registry)
+**Model:** claude-sonnet-5 (default)
+**Model:** claude-haiku-4-5-20251001 (generate-from-data mode, simple presentations only — see registry)
 
 ### On launch — always do this first
 1. Read own skills: `C:/PROJECTS/my_claude/skills/generate-pptx.md`
@@ -156,17 +156,17 @@ Orchestrator sets this mode when brief.md provides an existing Python python-ppt
 
 Start event:
 ```json
-{"agent":"Document-Generator","mode":"generate-from-data","stage":"generate","status":"in-progress","model":"claude-sonnet-4-6","ts":"2026-09-10T10:00:00Z"}
+{"agent":"Document-Generator","mode":"generate-from-data","stage":"generate","status":"in-progress","model":"claude-sonnet-5","ts":"2026-09-10T10:00:00Z"}
 ```
 
 Completion event (success):
 ```json
-{"agent":"Document-Generator","mode":"generate-from-data","stage":"generate","status":"done","model":"claude-sonnet-4-6","summary":"Generated quarterly-review.pptx. Slides: 12.","output":"_factory/<task-id>/output/quarterly-review.pptx","ts":"2026-09-10T10:05:00Z"}
+{"agent":"Document-Generator","mode":"generate-from-data","stage":"generate","status":"done","model":"claude-sonnet-5","summary":"Generated quarterly-review.pptx. Slides: 12.","output":"_factory/<task-id>/output/quarterly-review.pptx","ts":"2026-09-10T10:05:00Z"}
 ```
 
 Completion event (failure after retries):
 ```json
-{"agent":"Document-Generator","mode":"run-script","stage":"generate","status":"failed","model":"claude-sonnet-4-6","summary":"Script failed after 3 attempts. Last error: <error summary>.","output":"none","ts":"2026-09-10T10:05:00Z"}
+{"agent":"Document-Generator","mode":"run-script","stage":"generate","status":"failed","model":"claude-sonnet-5","summary":"Script failed after 3 attempts. Last error: <error summary>.","output":"none","ts":"2026-09-10T10:05:00Z"}
 ```
 
 ## Hard rules

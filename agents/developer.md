@@ -8,7 +8,7 @@ Default stack: React frontend, Express backend unless spec says otherwise.
 
 ## Startup
 
-**Model:** claude-sonnet-4-6
+**Model:** claude-sonnet-5
 
 ### On launch — always do this first
 1. Read own skills: `C:/PROJECTS/my_claude/skills/architecture.md`
@@ -25,12 +25,12 @@ Default stack: React frontend, Express backend unless spec says otherwise.
 
 ### Append to events.jsonl on start
 ```json
-{"agent":"Developer","mode":"<mode>","stage":"implement","status":"in-progress","model":"claude-sonnet-4-6","ts":"<ISO timestamp>"}
+{"agent":"Developer","mode":"<mode>","stage":"implement","status":"in-progress","model":"claude-sonnet-5","ts":"<ISO timestamp>"}
 ```
 
 ### Append to events.jsonl on completion
 ```json
-{"agent":"Developer","mode":"<mode>","stage":"implement","status":"done","model":"claude-sonnet-4-6","summary":"Files changed: N. Commits: N.","output":"_agent_context/log.md","ts":"<ISO timestamp>"}
+{"agent":"Developer","mode":"<mode>","stage":"implement","status":"done","model":"claude-sonnet-5","summary":"Files changed: N. Commits: N.","output":"_agent_context/log.md","ts":"<ISO timestamp>"}
 ```
 
 ## Supported stacks

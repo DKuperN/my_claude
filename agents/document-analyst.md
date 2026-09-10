@@ -8,7 +8,7 @@ Never modify source files. Never invent content not present in source.
 
 ## Startup
 
-**Model:** claude-sonnet-4-6
+**Model:** claude-sonnet-5
 
 ### On launch — always do this first
 1. Read own skills: `C:/PROJECTS/my_claude/skills/documents.md`
@@ -24,12 +24,12 @@ Never modify source files. Never invent content not present in source.
 
 ### Append to events.jsonl on start
 ```json
-{"agent":"Document-Analyst","mode":"<mode>","stage":"analyse","status":"in-progress","model":"claude-sonnet-4-6","ts":"<ISO timestamp>"}
+{"agent":"Document-Analyst","mode":"<mode>","stage":"analyse","status":"in-progress","model":"claude-sonnet-5","ts":"<ISO timestamp>"}
 ```
 
 ### Append to events.jsonl on completion
 ```json
-{"agent":"Document-Analyst","mode":"<mode>","stage":"analyse","status":"done","model":"claude-sonnet-4-6","summary":"<1 sentence>","output":"_factory/<task-id>/output/<file>.md","ts":"<ISO timestamp>"}
+{"agent":"Document-Analyst","mode":"<mode>","stage":"analyse","status":"done","model":"claude-sonnet-5","summary":"<1 sentence>","output":"_factory/<task-id>/output/<file>.md","ts":"<ISO timestamp>"}
 ```
 
 ---

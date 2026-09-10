@@ -30,7 +30,7 @@ they are injected by Orchestrator from project_context.md for Developer and Revi
 ```
 AGENT:       Orchestrator
 FILE:        C:/PROJECTS/my_claude/agents/orchestrator.md
-MODEL:       claude-sonnet-4-6
+MODEL:       claude-sonnet-5
 DOMAINS:     [all]
 MODES:       [factory-dispatch, onboarding, task-routing]
 READS:       user task input, agents/_registry.md
@@ -50,7 +50,7 @@ DEPENDS_ON:  []
 ```
 AGENT:       Analyst
 FILE:        C:/PROJECTS/my_claude/agents/analyst.md
-MODEL:       claude-opus-4-7
+MODEL:       claude-opus-5
 DOMAINS:     [software, analysis, planning]
 MODES:       [size-assessment, spec, spec-acceptance, consultation, acceptance-review, onboarding]
 READS:       _factory/<task-id>/brief.md
@@ -69,7 +69,7 @@ DEPENDS_ON:  []
 ```
 AGENT:       Developer
 FILE:        C:/PROJECTS/my_claude/agents/developer.md
-MODEL:       claude-sonnet-4-6
+MODEL:       claude-sonnet-5
 DOMAINS:     [software]
 MODES:       [build, fix, refactor, tech-review, onboarding]
 READS:       _factory/<task-id>/brief.md
@@ -91,7 +91,7 @@ DEPENDS_ON:  [Analyst]
 ```
 AGENT:       Reviewer
 FILE:        C:/PROJECTS/my_claude/agents/reviewer.md
-MODEL:       claude-sonnet-4-6
+MODEL:       claude-sonnet-5
 DOMAINS:     [software]
 MODES:       [internal-review, branch-review, onboarding]
 READS:       _factory/<task-id>/brief.md
@@ -112,8 +112,8 @@ DEPENDS_ON:  [Developer]
 AGENT:       QA
 FILE:        C:/PROJECTS/my_claude/agents/qa.md
 MODEL:
-  default (MEDIUM/LARGE task): claude-sonnet-4-6
-  testing (SMALL task):        claude-haiku-4-5
+  default (MEDIUM/LARGE task): claude-sonnet-5
+  testing (SMALL task):        claude-haiku-4-5-20251001
 DOMAINS:     [software]
 MODES:       [testing, onboarding]
 READS:       _factory/<task-id>/brief.md
@@ -132,8 +132,8 @@ DEPENDS_ON:  [Developer, Reviewer]
 AGENT:       CT-Architect
 FILE:        C:/PROJECTS/my_claude/agents/architect-ct.md
 MODEL:
-  default (solution-design, migration-advisory): claude-sonnet-4-6
-  spec-validation:                               claude-haiku-4-5
+  default (solution-design, migration-advisory): claude-sonnet-5
+  spec-validation:                               claude-haiku-4-5-20251001
 DOMAINS:     [software, commercetools, migration]
 MODES:       [solution-design, spec-validation, migration-advisory]
 READS:       _factory/<task-id>/brief.md
@@ -156,8 +156,8 @@ DEPENDS_ON:  [Analyst]
 AGENT:       Reverse-Analyst
 FILE:        C:/PROJECTS/my_claude/agents/analyst-reverse.md
 MODEL:
-  default (deep-analysis, documentation): claude-sonnet-4-6
-  surface-scan:                           claude-haiku-4-5
+  default (deep-analysis, documentation): claude-sonnet-5
+  surface-scan:                           claude-haiku-4-5-20251001
 DOMAINS:     [analysis, documentation, legacy-code]
 MODES:       [surface-scan, deep-analysis, documentation]
 READS:       _factory/<task-id>/brief.md
@@ -180,7 +180,7 @@ DEPENDS_ON:  []
 ```
 AGENT:       Document-Converter
 FILE:        C:/PROJECTS/my_claude/agents/document-converter.md
-MODEL:       claude-haiku-4-5
+MODEL:       claude-haiku-4-5-20251001
 DOMAINS:     [documents, conversion]
 MODES:       [pdf-to-markdown, pptx-to-markdown, batch-convert]
 READS:       _factory/<task-id>/brief.md
@@ -198,8 +198,8 @@ DEPENDS_ON:  []
 AGENT:       Document-Analyst
 FILE:        C:/PROJECTS/my_claude/agents/document-analyst.md
 MODEL:
-  default (extract-structure, compare, qa-over-content): claude-sonnet-4-6
-  summarize:                                             claude-haiku-4-5
+  default (extract-structure, compare, qa-over-content): claude-sonnet-5
+  summarize:                                             claude-haiku-4-5-20251001
 DOMAINS:     [documents, analysis, summarization]
 MODES:       [summarize, extract-structure, compare, qa-over-content]
 READS:       _factory/<task-id>/brief.md
@@ -221,8 +221,8 @@ DEPENDS_ON:  [Document-Converter]  ← only when conversion was requested; other
 AGENT:       Document-Generator
 FILE:        C:/PROJECTS/my_claude/agents/document-generator.md
 MODEL:
-  default (generate-from-example, run-script): claude-sonnet-4-6
-  generate-from-data (simple):                 claude-haiku-4-5
+  default (generate-from-example, run-script): claude-sonnet-5
+  generate-from-data (simple):                 claude-haiku-4-5-20251001
 DOMAINS:     [documents, generation, presentation]
 MODES:       [generate-from-data, generate-from-example, run-script]
 READS:       _factory/<task-id>/brief.md
@@ -244,15 +244,15 @@ Routing is mode-aware. Orchestrator resolves `agent + mode → model` at spawn t
 
 | Agent               | Default             | Haiku override (mode)                              |
 |---------------------|---------------------|----------------------------------------------------|
-| Analyst             | claude-opus-4-7     | —                                                  |
-| Developer           | claude-sonnet-4-6   | —                                                  |
-| Reviewer            | claude-sonnet-4-6   | —                                                  |
-| QA                  | claude-sonnet-4-6   | testing (SMALL task)                               |
-| CT-Architect        | claude-sonnet-4-6   | spec-validation                                    |
-| Reverse-Analyst     | claude-sonnet-4-6   | surface-scan                                       |
-| Document-Converter  | claude-haiku-4-5    | — (always haiku)                                   |
-| Document-Analyst    | claude-sonnet-4-6   | summarize                                          |
-| Document-Generator  | claude-sonnet-4-6   | generate-from-data (simple)                        |
+| Analyst             | claude-opus-5       | —                                                  |
+| Developer           | claude-sonnet-5     | —                                                  |
+| Reviewer            | claude-sonnet-5     | —                                                  |
+| QA                  | claude-sonnet-5     | testing (SMALL task)                               |
+| CT-Architect        | claude-sonnet-5     | spec-validation                                    |
+| Reverse-Analyst     | claude-sonnet-5     | surface-scan                                       |
+| Document-Converter  | claude-haiku-4-5-20251001 | — (always haiku)                             |
+| Document-Analyst    | claude-sonnet-5     | summarize                                          |
+| Document-Generator  | claude-sonnet-5     | generate-from-data (simple)                        |
 
 **Orchestrator routing logic:**
 1. Determine agent mode from pipeline stage

@@ -6,7 +6,7 @@ You verify behaviour against acceptance criteria and real usage scenarios.
 
 ## Startup
 
-**Model:** claude-sonnet-4-6
+**Model:** claude-sonnet-5
 
 ### On launch — always do this first
 1. Read `_factory/<task-id>/brief.md` — task-id is passed by Orchestrator
@@ -21,12 +21,12 @@ You verify behaviour against acceptance criteria and real usage scenarios.
 
 ### Append to events.jsonl on start
 ```json
-{"agent":"QA","mode":"testing","stage":"qa-gates","status":"in-progress","model":"claude-sonnet-4-6","ts":"<ISO timestamp>"}
+{"agent":"QA","mode":"testing","stage":"qa-gates","status":"in-progress","model":"claude-sonnet-5","ts":"<ISO timestamp>"}
 ```
 
 ### Append to events.jsonl on completion
 ```json
-{"agent":"QA","mode":"testing","stage":"qa-gates","status":"done","model":"claude-sonnet-4-6","summary":"Verdict: <PASS|FAIL>. Critical: N, Minor: N.","output":"_agent_context/qa_report.md","ts":"<ISO timestamp>"}
+{"agent":"QA","mode":"testing","stage":"qa-gates","status":"done","model":"claude-sonnet-5","summary":"Verdict: <PASS|FAIL>. Critical: N, Minor: N.","output":"_agent_context/qa_report.md","ts":"<ISO timestamp>"}
 ```
 
 ## Logging

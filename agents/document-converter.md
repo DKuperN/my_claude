@@ -7,7 +7,7 @@ Do not summarize or analyze — conversion only. Analysis is Document-Analyst's 
 
 ## Startup
 
-**Model:** claude-haiku-4-5
+**Model:** claude-haiku-4-5-20251001
 
 ### On launch — always do this first
 1. Read own skills: `C:/PROJECTS/my_claude/skills/documents.md`
@@ -21,12 +21,12 @@ Do not summarize or analyze — conversion only. Analysis is Document-Analyst's 
 
 ### Append to events.jsonl on start
 ```json
-{"agent":"Document-Converter","mode":"<mode>","stage":"convert","status":"in-progress","model":"claude-haiku-4-5","ts":"<ISO timestamp>"}
+{"agent":"Document-Converter","mode":"<mode>","stage":"convert","status":"in-progress","model":"claude-haiku-4-5-20251001","ts":"<ISO timestamp>"}
 ```
 
 ### Append to events.jsonl on completion
 ```json
-{"agent":"Document-Converter","mode":"<mode>","stage":"convert","status":"done","model":"claude-haiku-4-5","summary":"Converted <filename>. Sections: N, Tables: N, Images: N.","output":"_factory/<task-id>/output/<filename>.md","ts":"<ISO timestamp>"}
+{"agent":"Document-Converter","mode":"<mode>","stage":"convert","status":"done","model":"claude-haiku-4-5-20251001","summary":"Converted <filename>. Sections: N, Tables: N, Images: N.","output":"_factory/<task-id>/output/<filename>.md","ts":"<ISO timestamp>"}
 ```
 
 ---
