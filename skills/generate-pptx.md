@@ -7,12 +7,18 @@ Read this file before writing any python-pptx script.
 
 ## Library setup
 
+Core imports (include in every generated script):
 ```python
 from pptx import Presentation
-from pptx.util import Inches, Pt, Emu
+from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN
-from pptx.enum.dml import MSO_THEME_COLOR
+```
+
+Optional imports (add only when needed):
+```python
+from pptx.util import Emu            # when working with EMU units directly
+from pptx.enum.text import PP_ALIGN  # when setting paragraph alignment
+from pptx.enum.dml import MSO_THEME_COLOR  # when referencing theme colors by name
 ```
 
 Install check (include at top of generated scripts):

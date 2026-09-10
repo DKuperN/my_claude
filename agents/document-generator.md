@@ -55,7 +55,7 @@ Orchestrator sets this mode when task provides structured content (Markdown anal
 4. Write a Python script to `_factory/<task-id>/output/generate_<filename>.py` using python-pptx
 5. Execute the script via Bash: `python _factory/<task-id>/output/generate_<filename>.py`
 6. Verify output PPTX exists and is non-zero bytes
-7. If script errors: diagnose, fix script, re-run (up to 3 attempts before escalating)
+7. If script errors: diagnose, fix script, re-run (up to 3 attempts; after 3 failures append status "failed" to events.jsonl and stop)
 
 ### Output
 - Python script: `_factory/<task-id>/output/generate_<filename>.py`
@@ -161,7 +161,7 @@ Start event:
 
 Completion event (success):
 ```json
-{"agent":"Document-Generator","mode":"generate-from-data","stage":"generate","status":"done","model":"claude-sonnet-4-6","summary":"Generated quarterly-review.pptx. Slides: 12.","output":"_factory/task-id/output/quarterly-review.pptx","ts":"2026-09-10T10:05:00Z"}
+{"agent":"Document-Generator","mode":"generate-from-data","stage":"generate","status":"done","model":"claude-sonnet-4-6","summary":"Generated quarterly-review.pptx. Slides: 12.","output":"_factory/<task-id>/output/quarterly-review.pptx","ts":"2026-09-10T10:05:00Z"}
 ```
 
 Completion event (failure after retries):
