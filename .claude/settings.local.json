@@ -43,7 +43,9 @@
       "Bash(codemie profile *)",
       "Read(//c/Users/DzianisKupryianchyk/.codemie/**)",
       "Bash(codemie *)",
-      "Bash(pip install *)"
+      "Bash(pip install *)",
+      "Bash(git pull *)",
+      "Bash(git merge *)"
     ]
   }
 }
