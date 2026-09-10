@@ -114,6 +114,7 @@ See SOUL.md for the core principles and philosophy behind the agent system.
 - commercetools.md      — CT platform, B2B2C patterns, migration from Hybris
 - documents.md          — document processing: Markdown conventions, citations, conversion markers
 - generate-pptx.md      — python-pptx patterns: slide layouts, themes, fonts, images, pitfalls
+- patents-google.md     — Google Patents search via WebFetch xhr endpoint, minimal-cost fetch pattern
 
 Agents self-load their own domain skills. Orchestrator only injects stack skills
 (typescript.md, python.md, etc.) for Developer and Reviewer on software tasks.

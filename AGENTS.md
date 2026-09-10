@@ -59,6 +59,7 @@ Orchestrator determines task size automatically via Analyst.
 - commercetools.md      — CT platform, B2B2C patterns, migration from Hybris
 - documents.md          — document processing: Markdown conventions, citations, conversion markers
 - generate-pptx.md      — python-pptx patterns: slide layouts, themes, fonts, images, common pitfalls
+- patents-google.md     — Google Patents search via WebFetch xhr endpoint, minimal-cost fetch pattern
 
 Agents self-load their domain skills (declared in each agent's Startup section).
 Orchestrator injects only project-specific stack skills (typescript.md, python.md, etc.)
