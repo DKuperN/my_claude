@@ -1,1 +1,7 @@
 _factory/
+
+# Local research cache — see rules/research-cache.md
+# Working results from patent/web lookups, analytics exports, legacy sweeps.
+# Never committed: local-only, and may contain account-scoped data (emails, IDs).
+# Deliverables go to _agent_context/wiki/ or _factory/<task-id>/output/ instead.
+docs/

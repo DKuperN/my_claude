@@ -53,6 +53,13 @@ Add `&page=1`, `&page=2`, … to the same URL for subsequent result pages.
 
 ## Minimal-cost fetch pattern
 
+0. **Check the cache first** — `Glob docs/**/*`, and read any topic folder whose
+   slug looks related. A prior lookup may already answer the question, or cover part
+   of it (page 1 fetched, EP missing) so you only fetch the gap. This matters more
+   here than for most sources: `xhr/query` rate-limits after a handful of rapid
+   calls, so a cache hit protects the budget for the queries you genuinely need.
+   Full protocol — freshness windows, provenance header, write-back — in
+   `rules/research-cache.md`.
 1. **One** WebFetch call to the `xhr/query` endpoint. Prompt it explicitly for a
    Markdown table with: title, publication number, assignee, priority (or filing)
    date — plus the total result count reported by the query. The total count tells
@@ -71,6 +78,12 @@ Add `&page=1`, `&page=2`, … to the same URL for subsequent result pages.
 5. Never call `xhr/query` once per desired result. One call returns a full page
    (typically 10 rows) — pick from that page rather than issuing N calls for N
    patents.
+6. **Write the result back** to `docs/<topic-slug>/<artifact>.md` with the provenance
+   header from `rules/research-cache.md`. Record the exact `url=` query string, the
+   total match count, which page(s) you fetched, and which single row (if any) you
+   spot-checked — that is what lets the next lookup reuse this instead of re-querying
+   a rate-limited endpoint. Granted-patent data does not go stale; a *result set*
+   does, so `retrieved` and `scope` are what a later reader judges freshness on.
 
 ---
 

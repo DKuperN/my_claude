@@ -124,6 +124,7 @@ Agents self-load their own domain skills. Orchestrator only injects stack skills
 - rules/git.md          — commit format, who branches, who pushes, no --no-verify
 - rules/code-quality.md — no console.log, no hardcode, file size limits, TypeScript strict
 - rules/context.md      — MCP limits, checkpoint protocol, context file purpose
+- rules/research-cache.md — check `docs/` before any costly lookup; provenance header on every cached artifact
 
 Rules differ from Skills: Skills are reference knowledge; Rules are hard constraints every agent follows.
 

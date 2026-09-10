@@ -70,6 +70,7 @@ for Developer and Reviewer during software tasks.
 - rules/git.md          — commit format, who branches, who pushes, no --no-verify
 - rules/code-quality.md — no console.log, no hardcode, file size limits, TypeScript strict
 - rules/context.md      — MCP limits, checkpoint protocol, context file purpose
+- rules/research-cache.md — check `docs/` before any costly lookup; provenance header on every cached artifact
 
 ## Documenting new capabilities
 
